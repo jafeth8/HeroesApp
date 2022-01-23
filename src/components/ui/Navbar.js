@@ -27,7 +27,7 @@ export const Navbar = () => {
                         to="/marvel"
                     >
                         Marvel
-                    </NavLink>
+                    </NavLink>k
 
                     <NavLink 
                         
@@ -37,6 +37,13 @@ export const Navbar = () => {
                         to="/dc"
                     >
                         DC
+                    </NavLink>
+
+                    <NavLink 
+                        className={({isActive})=> "nav-item nav-link " + (isActive ? "active" : "")} 
+                        to="/hero"
+                    >
+                        Hero
                     </NavLink>
                 </div>
             </div>
