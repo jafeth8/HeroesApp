@@ -13,14 +13,17 @@ export const DashboardRoutes = () => {
         <>
             <Navbar/>
             
-            <Routes>
-                {/* el path '/' no se ocupa en la version de route v6*/}
-                <Route path="marvel" element={<MarvelScreen/>} />
-                <Route path="dc" element={<DcScreen/>} />
-                <Route path="search" element={<SearchScreen/>} />
-                <Route path="hero" element={<HeroScreen/>} />
-                <Route path="/" element={<MarvelScreen/>} />
-            </Routes>
+            <div className="container">
+                <Routes>
+                    {/* el path '/' no se ocupa en la version de route v6*/}
+                    <Route path="marvel" element={<MarvelScreen/>} />
+                    <Route path="dc" element={<DcScreen/>} />
+                    <Route path="search" element={<SearchScreen/>} />
+                    <Route path="hero" element={<HeroScreen/>} />
+                    <Route path="/" element={<MarvelScreen/>} />
+                </Routes>
+            </div>
+            
         </>
     );
 };
