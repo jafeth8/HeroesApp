@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Navigate,useNavigate, useParams } from 'react-router-dom';
 import { getHeroesById } from '../../selectors/getHeroesById';
 
@@ -9,7 +9,11 @@ export const HeroScreen = () => {
     const navigate=useNavigate()
 
     //console.log(heroeId);
-    const hero=getHeroesById(heroeId)
+
+    /*de esta manera la funcion 'getHeroesById' solo sera llamada cuando la dependencia 
+    'heroeId' cambie y no cuando el estado del componente sea cambiado por ejemplo con un 'useState'*/
+    const hero=useMemo(() => getHeroesById(heroeId),[heroeId]); 
+    
 
     const handleReturn = () => {
 
