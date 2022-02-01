@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useNavigate,useLocation } from 'react-router-dom';
+import queryString from 'query-string'
 
 import {useForm} from '../../hooks/useForm'
+import { getHeroesByName } from '../../selectors/getHeroesByName';
+import { HeroCard } from '../hero/HeroCard';
 
 export const SearchScreen = () => {
 
-    const [formValues,handleInputChange]=useForm({searchText:''})
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    //console.log(location); // 
+
+    /*location.search tiene un formato como '/search?q=campo' por eso se tiene que "formatear" con 
+    la ayuda del paquete query-string de npm*/
+    const { q = ''  } = queryString.parse(location.search); //
+    
+    const [formValues,handleInputChange]=useForm({searchText:q})
 
     const {searchText}=formValues;
+
+    const heroesFileted = useMemo( () => getHeroesByName(q), [q] );
     
     const handleSearch=(e)=>{
         e.preventDefault();
-        console.log(searchText);
+        //navigate('')//se redirecciona a la misma pagina
+        navigate(`?q=${searchText}`);
     }
     
 
@@ -26,6 +42,7 @@ export const SearchScreen = () => {
                     <hr />
 
                     <form onSubmit={ handleSearch }>
+
                         <input 
                             type="text"
                             placeholder="Buscar un héroe"
@@ -41,9 +58,34 @@ export const SearchScreen = () => {
                             type="submit">
                             Buscar...
                         </button>
-
+                        
                     </form>
                 </div>
+
+                <div className="col-7">
+                    <h4>Resultados</h4>
+                    <hr />
+
+                    {
+                        (q === '')
+                            ? <div className="alert alert-info"> Buscar un héroe </div>
+                            : ( heroesFileted.length === 0 ) 
+                                && <div className="alert alert-danger"> No hay resultados: { q } </div>
+                    }
+
+
+                    {
+                        heroesFileted.map(hero => (
+                            <HeroCard 
+                                key={ hero.id }
+                                { ...hero }
+                            />
+                        ))
+                    }
+
+
+                </div>
+
             </div>    
         </>
     )
